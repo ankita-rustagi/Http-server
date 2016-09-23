@@ -1,8 +1,11 @@
+//IMPORT MODULES
 var http=require("http");
 var path=require("path");
 var fs=require("fs");
 
 var readline = require('readline');
+
+//Function to read file and store content of file in a variable 
 function readFile(fileName, response){
 	reader = readline.createInterface({
 	input : fs.createReadStream(fileName)
@@ -20,11 +23,13 @@ function readFile(fileName, response){
 		response.end(content);
 	})
 }
-
+//Creating server
 var app=http.createServer(function(req,res){
-	
+	// finding url
 	r=req.url;
 	c="text/html";
+
+	//mapping of url
 	if(r == "/" ||r == "/index.html"){
 		
 		res.writeHead(200,{"Content-Type":c});
@@ -35,6 +40,7 @@ var app=http.createServer(function(req,res){
 		console.log(dir);
 		p=path.join(dir,path.sep,"../",r);
 		ext=r.split(".").pop();
+		//changing the content type of resp according to extention of url(request)
 		switch(ext){
 			case "css":
 			c="text/css";
@@ -59,4 +65,5 @@ var app=http.createServer(function(req,res){
 	}
 
 });
+//assign port 8000 to server
 app.listen(8000);
